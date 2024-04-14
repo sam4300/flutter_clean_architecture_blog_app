@@ -4,29 +4,26 @@ import 'package:blog_app/core/utils/show_snackbar.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
-import 'package:blog_app/features/auth/presentation/pages/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   static route() => MaterialPageRoute(
-        builder: (context) => const SignUpPage(),
+        builder: (context) => const SignInPage(),
       );
-  const SignUpPage({super.key});
+  const SignInPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  final nameController = TextEditingController();
+class _SignInPageState extends State<SignInPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -45,7 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
             }
           },
           builder: (context, state) {
-            if (state is AuthLoading) {
+            if(state is AuthLoading){
               return const Loader();
             }
             return Form(
@@ -56,12 +53,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 40),
-                    const Text('Sign Up',
-                        style: TextStyle(
-                            fontSize: 50, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Sign In',
+                      style:
+                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 20),
-                    AuthField(hintText: 'name', controller: nameController),
-                    const SizedBox(height: 10),
                     AuthField(hintText: 'email', controller: emailController),
                     const SizedBox(height: 10),
                     AuthField(
@@ -71,11 +68,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     const SizedBox(height: 20),
                     AuthGradientButton(
-                      buttonText: 'Sign up',
+                      buttonText: 'sign in',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          context.read<AuthBloc>().add(AuthSighUp(
-                                name: nameController.text.trim(),
+                          context.read<AuthBloc>().add(AuthSignIn(
                                 email: emailController.text.trim(),
                                 password: passwordController.text.trim(),
                               ));
@@ -85,18 +81,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          SignInPage.route(),
-                        );
+                        Navigator.pop(context);
                       },
                       child: RichText(
                         text: TextSpan(
-                          text: "Already have an account?  ",
+                          text: "Don't have an account?  ",
                           style: Theme.of(context).textTheme.titleMedium,
                           children: [
                             TextSpan(
-                              text: 'Sign in',
+                              text: 'Sign up',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
