@@ -1,5 +1,7 @@
+import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/pages/add_new_blog.dart';
+import 'package:blog_app/features/blog/presentation/widgets/blog_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,7 +47,12 @@ class _BlogPageState extends State<BlogPage> {
               itemCount: state.blog.length,
               itemBuilder: (BuildContext context, int index) {
                 final singleBlog = state.blog[index];
-                return Text(singleBlog.title);
+                return BlogCard(
+                  blog: singleBlog,
+                  color: index / 2 == 0
+                      ? AppPallete.gradient1
+                      : AppPallete.gradient2,
+                );
               },
             );
           }
