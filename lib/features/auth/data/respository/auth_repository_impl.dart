@@ -2,7 +2,7 @@ import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failure_model.dart';
 import 'package:blog_app/features/auth/data/data_sources/auth_remote_dart_source.dart';
 import 'package:blog_app/features/auth/data/models/user_model.dart';
-import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:blog_app/core/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
@@ -61,6 +61,19 @@ class AuthRepositoryImpl implements AuthRepository {
     } on sb.AuthException catch (e) {
       return left(
         Failure(e.message),
+      );
+    } on ServerException catch (e) {
+      return left(
+        Failure(e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> userSignOut() async {
+    try {
+      return right(
+        remoteDataSource.userSignOut(),
       );
     } on ServerException catch (e) {
       return left(
