@@ -43,6 +43,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ).copyWith(
         email: currentUserSession!.user.email,
       );
+    } on AuthException catch (e) {
+      throw ServerException(
+        e.message,
+      );
     } catch (e) {
       throw ServerException(
         e.toString(),
@@ -70,6 +74,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ).copyWith(
         email: currentUserSession!.user.email,
       );
+    } on AuthException catch (e) {
+      throw ServerException(
+        e.message,
+      );
     } catch (e) {
       throw ServerException(
         e.toString(),
@@ -96,6 +104,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 
+  @override
   Future<void> userSignOut() async {
     try {
       await supabaseClient.auth.signOut();
